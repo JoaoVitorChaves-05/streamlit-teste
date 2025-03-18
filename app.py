@@ -1,12 +1,16 @@
 import streamlit as st
 import requests
+import myComponent
+
 st.title("Integração Streamlit + React")
 
 st.write("Abaixo temos um componente React dentro do Streamlit:")
 
 # Exibe o componente React no Streamlit
 
-st.components.v1.iframe("http://localhost:8502/index.html", height=600)
+count = myComponent.react_counter(count=5)
+st.write(f"O contador atual é: {count}")
+#st.components.v1.iframe("http://localhost:8502/index.html", height=600)
 
 # Outro componene Streamlit
 

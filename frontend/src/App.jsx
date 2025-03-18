@@ -1,28 +1,16 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { Streamlit, withStreamlitConnection } from "streamlit-component-lib";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-
-function App() {
-  const [count, setCount] = useState(0)
+function App({ args }) {
+  const [count, setCount] = useState(args.count || 0); // Recebe valor inicial do Streamlit
 
   useEffect(() => {
-    fetch('http://localhost:8502/contador', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'contador': count }),
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-    .catch(error => console.error('Error:', error));
-  }, [count])
-
-  const updateCount = () => {
-    setCount((prevCount) => prevCount + 1)
-  }
+    Streamlit.setComponentValue(count); // Envia o valor do contador para o Streamlit
+    Streamlit.setFrameHeight(); // Ajusta a altura do componente dinamicamente
+  }, [count]);
 
   return (
     <>
@@ -36,18 +24,17 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={updateCount}>
+        <button onClick={() => setCount(count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <p>Edit <code>src/App.jsx</code> and save to test HMR</p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+// Envolver com conexão do Streamlit
+export default withStreamlitConnection(App);
