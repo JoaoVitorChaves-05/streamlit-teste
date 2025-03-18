@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # Se estiver em modo de desenvolvimento, carregue do servidor local
-_RELEASE = False
+_RELEASE = True
 
 if not _RELEASE:
     _component_func = components.declare_component("streamlit_react_counter", url="http://localhost:5173")
